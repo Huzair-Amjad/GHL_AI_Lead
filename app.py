@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # <-- Allow cross-origin requests
 
 @app.route('/', methods=['GET'])
 def home():
@@ -11,14 +13,9 @@ def score_lead():
     if request.method == 'GET':
         return "score-lead GET is working!"
     if request.method == 'POST':
-        try:
-            data = request.json
-            print("Received:", data)
-            # Return a fixed test score for now
-            return jsonify({"score": 85})
-        except Exception as e:
-            print("Error:", e)
-            return jsonify({"error": str(e)}), 500
+        data = request.json
+        print("Received:", data)
+        return jsonify({"score": 85})
 
 if __name__ == "__main__":
     app.run()
