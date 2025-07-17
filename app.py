@@ -6,6 +6,7 @@ client = OpenAI(api_key="sk-proj-wXoC7txD88ZVqkVFlwfLKHLu5xE71T7pMwthaq3suXzwFoB
 
 @app.route('/score-lead', methods=['POST'])
 def score_lead():
+    print("Received a POST to /score-lead")
     data = request.json
     prompt = f"""Score the following sales lead from 0 (cold) to 100 (hot) based on their info for a marketing agency. Just return the score number.\n\nLead: {data}"""
     stream = client.chat.completions.create(
@@ -16,7 +17,7 @@ def score_lead():
     )
     for chunk in stream:
       if chunk.choices[0].delta.content:
-        return chunk.choices[0].delta.content
+        print(chunk.choices[0].delta.content, end = "")
 
 if __name__ == '__main__':
     app.run(debug=True)
